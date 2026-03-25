@@ -108,39 +108,34 @@ class LeagueAPI:
             leagues.append(league)
             
         return leagues
+    
+    def get_league(
+        self,
+        queue: Queue,
+        tier: Tier,
+        division: Division | None = None
+    ) -> list[League]:
+        
+        endpoint = self.endpoint_handler(queue, tier, division)
+
+        if tier in self.TOP_TIERS_:
+            return self.get_top_leagues(endpoint)
+        else:
+            return self.get_entries_leagues(endpoint)
 
     def run_leagues(self) -> list[dict]:
         leagues: list[dict] = []
 
-        # top tiers rank
         for tier in self.TOP_TIERS_:
-            league_divisions: dict[str, list[League]] = {}
+            league = self.get_league(Queue.RANKED_SOLO, tier)
+            leagues.append({tier.value: league})
 
-            league: list[League] | None = self.get_top_leagues(
-                self.endpoint_handler(Queue.RANKED_SOLO, tier)
-            )
-            if league is None:
-                raise RuntimeError(f"No league data returned for {tier.value}")
-
-            league_divisions[f"{tier.value}"] = league
-            leagues.append(league_divisions)
-
-        # entrie tiers rank
         for tier in self.ENTRIE_TIERS_:
-            league_divisions: dict[str, list[League]] = {}
-
+            league_divisions = {}
             for division in self.DIVISIONS_:
-                league: list[League] | None = self.get_entries_leagues(
-                    self.endpoint_handler(Queue.RANKED_SOLO, tier, division)
-                )
-                if league is None:
-                    raise RuntimeError(f"No league data returned for {tier.value}")
-
+                league = self.get_league(Queue.RANKED_SOLO, tier, division)
                 league_divisions[f"{tier.value}_{division.value}"] = league
 
             leagues.append(league_divisions)
 
-        with open("data_riot/raw/leagues.json", "w", encoding="utf-8") as file:
-            json.dump(leagues, file, indent=4, default=lambda o: asdict(o))
-            
         return leagues
