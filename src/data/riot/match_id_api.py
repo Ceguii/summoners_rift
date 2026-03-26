@@ -6,7 +6,7 @@ from src.data.riot.exceptions import RiotNotFoundError
 from src.data.riot.models.league import League
 from src.data.riot.models.match_ids import MatchIds
 
-logger = logging.getLogger("match_fetch")
+logger = logging.getLogger(__name__)
 
 
 class MatchIdAPI:
@@ -58,7 +58,7 @@ class MatchIdAPI:
 
         for league in leagues:
             for tier, player_infos in league.items():
-                logger.info(
+                logger.debug(
                     f"CURRENT STATE - tier - {tier}"
                 )
                 current_puuid = 1
@@ -67,7 +67,7 @@ class MatchIdAPI:
                     match_ids = self.get_list_match_ids_single_puuid(
                         tier, player_info.puuid
                     )
-                    logger.info(
+                    logger.debug(
                         f"CURRENT STATE - puuid/tot_puuids - {current_puuid}/{len(player_infos)}"
                     )
                     current_puuid += 1

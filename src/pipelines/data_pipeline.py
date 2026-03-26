@@ -1,3 +1,4 @@
+import sys
 import json
 import time
 import logging
@@ -10,15 +11,12 @@ from src.data.riot.match_id_api import MatchIdAPI
 
 from src.data.riot.models.league import League
 from src.data.riot.models.match_ids import MatchIds
+from src.utils.setup_logging import setup_logging
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    filename="data_riot/log/data_pipeline.log",
-    filemode="w",
-)
-logger = logging.getLogger("pipeline")
+setup_logging()
 
+logger = logging.getLogger(__name__)
+logger.info("Logger initialized")
 
 class DataPipeline:
     def __init__(self, api_riot: str) -> None:

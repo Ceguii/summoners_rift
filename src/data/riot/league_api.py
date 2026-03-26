@@ -10,24 +10,23 @@ from src.data.endpoints.endpoint import Endpoint
 from src.data.riot.exceptions import RiotNotFoundError
 from src.data.riot.models.league import League
 
-logger = logging.getLogger("league_fetch")
-
+logger = logging.getLogger(__name__)
 
 class LeagueAPI:
     TOP_TIERS_ = [
         Tier.CHALLENGER,
-        Tier.GRANDMASTER,
-        Tier.MASTER,
+        # Tier.GRANDMASTER,
+        # Tier.MASTER,
     ]
 
     ENTRIE_TIERS_ = [
         Tier.DIAMOND,
-        Tier.EMERALD,
-        Tier.PLATINUM,
-        Tier.GOLD,
-        Tier.SILVER,
-        Tier.BRONZE,
-        Tier.IRON,
+        # Tier.EMERALD,
+        # Tier.PLATINUM,
+        # Tier.GOLD,
+        # Tier.SILVER,
+        # Tier.BRONZE,
+        # Tier.IRON,
     ]
 
     DIVISIONS_ = [
@@ -129,7 +128,7 @@ class LeagueAPI:
         for tier in self.TOP_TIERS_:
             league = self.get_single_league(Queue.RANKED_SOLO, tier)
             leagues.append({tier.value: league})
-            logger.info(f"CURRENT STATE - {tier.value}")
+            logger.debug(f"CURRENT STATE - {tier.value}")
 
         logger.info("START - fetch all entries tier/division...")
         for tier in self.ENTRIE_TIERS_:
@@ -137,7 +136,7 @@ class LeagueAPI:
             for division in self.DIVISIONS_:
                 league = self.get_single_league(Queue.RANKED_SOLO, tier, division)
                 league_divisions[f"{tier.value}_{division.value}"] = league
-                logger.info(f"CURRENT STATE - {tier.value}/{division.value}")
+                logger.debug(f"CURRENT STATE - {tier.value}/{division.value}")
 
             leagues.append(league_divisions)
 
