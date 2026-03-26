@@ -1,8 +1,12 @@
+import logging
+
 from src.data.riot.client_api import RiotClient
 from src.data.endpoints.endpoint import Endpoint
 from src.data.riot.exceptions import RiotNotFoundError
 from src.data.riot.models.league import League
 from src.data.riot.models.match_ids import MatchIds
+
+logger = logging.getLogger("match_fetch")
 
 
 class MatchIdAPI:
@@ -50,15 +54,28 @@ class MatchIdAPI:
         self, leagues: list[dict[str, list[League]]]
     ) -> list[MatchIds]:
         all_match_ids: list[MatchIds] = []
+        logger.info("START - fetch all match ids")
+
         for league in leagues:
             for tier, player_infos in league.items():
+                logger.info(
+                    f"CURRENT STATE - tier - {tier}"
+                )
+                current_puuid = 1
+
                 for player_info in player_infos:
                     match_ids = self.get_list_match_ids_single_puuid(
                         tier, player_info.puuid
                     )
+                    logger.info(
+                        f"CURRENT STATE - puuid/tot_puuids - {current_puuid}/{len(player_infos)}"
+                    )
+                    current_puuid += 1
+
                     if match_ids is None:
                         continue
 
                     all_match_ids.append(match_ids)
 
+        logger.info("END - fetch all match ids")
         return all_match_ids

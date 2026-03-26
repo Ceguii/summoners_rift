@@ -1,4 +1,4 @@
-import json
+import logging
 
 from dataclasses import asdict
 
@@ -9,6 +9,8 @@ from src.data.enums.queue import Queue
 from src.data.endpoints.endpoint import Endpoint
 from src.data.riot.exceptions import RiotNotFoundError
 from src.data.riot.models.league import League
+
+logger = logging.getLogger("league_fetch")
 
 
 class LeagueAPI:
@@ -123,16 +125,21 @@ class LeagueAPI:
     def run_leagues(self) -> list[dict[str, list[League]]]:
         leagues: list[dict] = []
 
+        logger.info("START - fetch all top tier/division")
         for tier in self.TOP_TIERS_:
             league = self.get_single_league(Queue.RANKED_SOLO, tier)
             leagues.append({tier.value: league})
+            logger.info(f"CURRENT STATE - {tier.value}")
 
+        logger.info("START - fetch all entries tier/division...")
         for tier in self.ENTRIE_TIERS_:
             league_divisions = {}
             for division in self.DIVISIONS_:
                 league = self.get_single_league(Queue.RANKED_SOLO, tier, division)
                 league_divisions[f"{tier.value}_{division.value}"] = league
+                logger.info(f"CURRENT STATE - {tier.value}/{division.value}")
 
             leagues.append(league_divisions)
 
+        logger.info("END - fetch all tier/division")
         return leagues
