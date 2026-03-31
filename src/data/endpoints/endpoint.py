@@ -1,9 +1,12 @@
 class Endpoint:
     # get puuid using riot id
     ACCOUNT_BY_RIOT_ID = "/riot/account/v1/accounts/by-riot-id/{summoner_id}/{tagline}?api_key={api_riot}"
-    
+
     # get match details using match_id
     MATCH_DETAILS_USING_MATCH_ID = "/lol/match/v5/matches/{match_id}?api_key={api_riot}"
+    MATCH_DETAILS_TIMELINE_USING_MATCH_ID = (
+        "/lol/match/v5/matches/{match_id}/timeline?api_key={api_riot}"
+    )
 
     # get all plauyers league using queue, tier, division
     MASTER_LEAGUE = "/lol/league/v4/masterleagues/by-queue/{queue}?api_key={api_riot}"

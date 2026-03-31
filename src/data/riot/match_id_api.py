@@ -58,9 +58,7 @@ class MatchIdAPI:
 
         for league in leagues:
             for tier, player_infos in league.items():
-                logger.debug(
-                    f"CURRENT STATE - tier - {tier}"
-                )
+                logger.debug(f"CURRENT STATE - tier - {tier}")
                 current_puuid = 1
 
                 for player_info in player_infos:

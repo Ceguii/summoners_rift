@@ -12,6 +12,7 @@ from src.data.riot.models.league import League
 
 logger = logging.getLogger(__name__)
 
+
 class LeagueAPI:
     TOP_TIERS_ = [
         Tier.CHALLENGER,
@@ -21,7 +22,7 @@ class LeagueAPI:
 
     ENTRIE_TIERS_ = [
         Tier.DIAMOND,
-        # Tier.EMERALD,
+        Tier.EMERALD,
         # Tier.PLATINUM,
         # Tier.GOLD,
         # Tier.SILVER,
@@ -31,9 +32,9 @@ class LeagueAPI:
 
     DIVISIONS_ = [
         Division.I,
-        Division.II,
-        Division.III,
-        Division.IV,
+        # Division.II,
+        # Division.III,
+        # Division.IV,
     ]
 
     def __init__(self, client: RiotClient) -> None:
