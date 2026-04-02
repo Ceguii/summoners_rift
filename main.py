@@ -11,9 +11,16 @@ def main() -> None:
     if api_key is None:
         raise ValueError(f"error API Key, his value : {api_key}")
 
-    # data recovery - each tier/division
+    # data recovery
     data_pipeline = DataPipeline(api_key)
     data_pipeline.run()
+    
+    # TODO
+    # do some features engineering (cs_minute / gold_minute)
+    
+    # TODO
+    # generate a csv/json format of all data
+    # then do data science
 
 
 if __name__ == "__main__":
