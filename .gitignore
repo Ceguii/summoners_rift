@@ -2,6 +2,7 @@
 cookbook/
 idea_project.txt
 data_riot/
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
