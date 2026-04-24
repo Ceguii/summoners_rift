@@ -36,7 +36,7 @@ class RiotClient:
         self.regional_url = f"https://{self.regional_region}.api.riotgames.com"
 
         retry_strategy = Retry(
-            total=2,
+            total=5,
             backoff_factor=2,
             status_forcelist=[429, 500, 502, 503, 504],
             raise_on_status=False,
